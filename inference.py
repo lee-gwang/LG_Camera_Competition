@@ -53,7 +53,7 @@ def predict_new(stride=640, batch_size=64, img_size=768):
                             position.append([top, left])
                             batch_count += 1
                             if batch_count == batch_size:
-                                crop = torch.tensor(np.array(crop)).permute(0,3,1,2).to(device)
+                                crop = torch.from_numpy(np.array(crop)).permute(0,3,1,2).to(device)
 
                                 pred = model(crop)*255
                                 pred = pred.detach().cpu().numpy()
@@ -66,7 +66,8 @@ def predict_new(stride=640, batch_size=64, img_size=768):
                                     voting_mask[t:t+img_size, l:l+img_size, :] += 1
                                 position = []
                     if batch_count != 0: 
-                        crop = torch.tensor(np.array(crop)).permute(0,3,1,2).to(device)
+                        crop = torch.from_numpy(np.array(crop)).permute(0,3,1,2).to(device)
+
                         pred = model(crop)*255
                         pred = pred.detach().cpu().numpy()
                         crop = []
@@ -98,7 +99,7 @@ def make_submission(result):
     submission.close()
 
 if __name__ == '__main__':
-    #start = time.time()
+    start = time.time()
     test_result = predict_new(stride=640, batch_size=64, img_size=768)
     make_submission(test_result)
-    #print(f'{time.time()-start:2f}초 걸림')
+    print(f'{time.time()-start:2f}초 걸림')
