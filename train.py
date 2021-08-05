@@ -127,7 +127,7 @@ def run_train():
     
     # debut
     if args.debug:
-        df = df.sample(5000).copy()
+        df = df.sample(500).copy()
     
     # trainloader
     train_data = df[df['type_']=='train'].reset_index(drop=True).copy()
@@ -231,7 +231,7 @@ def run_train():
 
         log.write(f'train loss : {train_loss:.4f}'+'\n')
         log.write(f'valid score :{valid_score:.2f} '+'\n')
-        log.write(f'{[str(round(x, 2)) for x in psnr_score_list]}'+'\n')
+        #log.write(f'{[str(round(x, 2)) for x in psnr_score_list]}'+'\n')
 
 # ------------------------
 #  Validation
@@ -242,8 +242,8 @@ def do_psnr(net):
     list_ = df[df['type_']=='val']['img_id'].unique().tolist()
     img_paths =[] ; label_paths = []
     for id_ in list_:
-        img_paths.append(f'./data/train/train_input_{id_}.png')
-        label_paths.append(f'./data/train/train_label_{id_}.png')
+        img_paths.append(f'./data/train_input_img/train_input_{id_}.png')
+        label_paths.append(f'./data/train_label_img/train_label_{id_}.png')
 
     
     img_size = args.img_size ; stride = args.img_size//2

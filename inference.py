@@ -98,7 +98,7 @@ def make_submission(result):
     submission.close()
 
 if __name__ == '__main__':
-    start = time.time()
+    #start = time.time()
     test_result = predict_new(stride=640, batch_size=64, img_size=768)
     make_submission(test_result)
-    print(f'{time.time()-start:2f}초 걸림')
+    #print(f'{time.time()-start:2f}초 걸림')

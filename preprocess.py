@@ -44,20 +44,17 @@ def preprocess_train(img_size=512):
     train['label_img'] = './data/train_label_img/'+train['label_img']
     img_id_ = train['img_id']
 
-
     train_input_files = train[train['fold']!=3]['input_img'].tolist()
     train_label_files = train[train['fold']!=3]['label_img'].tolist()
 
     val_input_files = train[train['fold']==3]['input_img'].tolist()
     val_label_files = train[train['fold']==3]['label_img'].tolist()
 
-
     #
     list_1 = cut_img(train_input_files, './data/train_input_img_', img_size//2, img_size)
     list_2 = cut_img(train_label_files, './data/train_label_img_', img_size//2, img_size)
     list_3 = cut_img(val_input_files, './data/val_input_img_', img_size//2, img_size)
     list_4 = cut_img(val_label_files, './data/val_label_img_', img_size//2, img_size)
-
 
     #
     temp_train = pd.DataFrame()
