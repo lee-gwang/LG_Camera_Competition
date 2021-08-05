@@ -40,3 +40,7 @@ $ python train.py --gpu=0,1 --img_size=768 --batch_size=32 --exp_name=768_models
 ```bash
 $ python inference.py --gpu=0,1
 ```
+
+## TODO
+1. requirements.txt
+2. 
