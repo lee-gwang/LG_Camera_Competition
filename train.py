@@ -102,84 +102,6 @@ def get_scheduler(optimizer):
         print('scheduler is None')
     return scheduler
 
-# ------------------------
-#  Validation
-# ------------------------
-def do_psnr(net):
-    df = pd.read_csv(f'./data/preprocess_train_{args.img_size}.csv')
-
-    list_ = df[df['type_']=='val']['img_id'].unique().tolist()
-    img_paths =[] ; label_paths = []
-    for id_ in list_:
-        img_paths.append(f'./data/train/train_input_{id_}.png')
-        label_paths.append(f'./data/train/train_label_{id_}.png')
-
-    
-    img_size = args.img_size ; stride = args.img_size//2
-
-    batch_size = 32
-    results = []
-    psnr_score_list = []
-    net.eval()
-    with torch.no_grad():
-        if args.amp:
-            with amp.autocast():
-                for img_path in tqdm.tqdm(img_paths):
-                    img = cv2.imread(img_path)
-                    img = img.astype(np.float32)/255
-                    crop = []
-                    position = []
-                    batch_count = 0
-
-                    result_img = np.zeros_like(img)
-                    voting_mask = np.zeros_like(img)
-
-                    for top in range(0, img.shape[0], stride):
-                        for left in range(0, img.shape[1], stride):
-                            piece = np.zeros([img_size, img_size, 3], np.float32)
-                            temp = img[top:top+img_size, left:left+img_size, :]
-                            piece[:temp.shape[0], :temp.shape[1], :] = temp
-                            crop.append(piece)
-                            position.append([top, left])
-                            batch_count += 1
-                            
-                            if batch_count == batch_size:
-                                crop = torch.tensor(np.array(crop)).permute(0,3,1,2).to(device)
-
-                                pred = net(crop)
-                                pred = pred.detach().cpu().numpy()*255
-                                crop = []
-                                batch_count = 0
-                                for num, (t, l) in enumerate(position):
-                                    piece = pred[num]
-                                    h, w, c = result_img[t:t+img_size, l:l+img_size, :].shape
-                                    result_img[t:t+img_size, l:l+img_size, :] += piece[:h, :w]
-                                    voting_mask[t:t+img_size, l:l+img_size, :] += 1
-                                position = []
-                    if batch_count != 0: 
-                        crop = torch.tensor(np.array(crop)).permute(0,3,1,2).to(device)
-                        pred = net(crop)*255
-                        pred = pred.detach().cpu().numpy()
-                        crop = []
-                        batch_count = 0
-                        for num, (t, l) in enumerate(position):
-                            piece = pred[num]
-                            h, w, c = result_img[t:t+img_size, l:l+img_size, :].shape
-                            result_img[t:t+h, l:l+w, :] += piece[:h, :w]
-                            voting_mask[t:t+h, l:l+w, :] += 1
-                        position = []
-                        
-                    result_img = result_img/voting_mask
-                    result_img = np.around(result_img).astype(np.uint8)
-                    results.append(result_img)
-    
-    for i, (input_path, label_path) in enumerate(zip(img_paths, label_paths)):
-        
-        targ_img = cv2.imread(label_path)
-        psnr_score_list.append(psnr_score(results[i].astype(float), targ_img.astype(float), 255))
-        
-    
-    return np.mean(psnr_score_list), psnr_score_list
 
 # ------------------------
 #  Train
@@ -310,6 +232,85 @@ def run_train():
         log.write(f'train loss : {train_loss:.4f}'+'\n')
         log.write(f'valid score :{valid_score:.2f} '+'\n')
         log.write(f'{[str(round(x, 2)) for x in psnr_score_list]}'+'\n')
+
+# ------------------------
+#  Validation
+# ------------------------
+def do_psnr(net):
+    df = pd.read_csv(f'./data/preprocess_train_{args.img_size}.csv')
+
+    list_ = df[df['type_']=='val']['img_id'].unique().tolist()
+    img_paths =[] ; label_paths = []
+    for id_ in list_:
+        img_paths.append(f'./data/train/train_input_{id_}.png')
+        label_paths.append(f'./data/train/train_label_{id_}.png')
+
+    
+    img_size = args.img_size ; stride = args.img_size//2
+
+    batch_size = 32
+    results = []
+    psnr_score_list = []
+    net.eval()
+    with torch.no_grad():
+        if args.amp:
+            with amp.autocast():
+                for img_path in tqdm.tqdm(img_paths):
+                    img = cv2.imread(img_path)
+                    img = img.astype(np.float32)/255
+                    crop = []
+                    position = []
+                    batch_count = 0
+
+                    result_img = np.zeros_like(img)
+                    voting_mask = np.zeros_like(img)
+
+                    for top in range(0, img.shape[0], stride):
+                        for left in range(0, img.shape[1], stride):
+                            piece = np.zeros([img_size, img_size, 3], np.float32)
+                            temp = img[top:top+img_size, left:left+img_size, :]
+                            piece[:temp.shape[0], :temp.shape[1], :] = temp
+                            crop.append(piece)
+                            position.append([top, left])
+                            batch_count += 1
+                            
+                            if batch_count == batch_size:
+                                crop = torch.tensor(np.array(crop)).permute(0,3,1,2).to(device)
+
+                                pred = net(crop)
+                                pred = pred.detach().cpu().numpy()*255
+                                crop = []
+                                batch_count = 0
+                                for num, (t, l) in enumerate(position):
+                                    piece = pred[num]
+                                    h, w, c = result_img[t:t+img_size, l:l+img_size, :].shape
+                                    result_img[t:t+img_size, l:l+img_size, :] += piece[:h, :w]
+                                    voting_mask[t:t+img_size, l:l+img_size, :] += 1
+                                position = []
+                    if batch_count != 0: 
+                        crop = torch.tensor(np.array(crop)).permute(0,3,1,2).to(device)
+                        pred = net(crop)*255
+                        pred = pred.detach().cpu().numpy()
+                        crop = []
+                        batch_count = 0
+                        for num, (t, l) in enumerate(position):
+                            piece = pred[num]
+                            h, w, c = result_img[t:t+img_size, l:l+img_size, :].shape
+                            result_img[t:t+h, l:l+w, :] += piece[:h, :w]
+                            voting_mask[t:t+h, l:l+w, :] += 1
+                        position = []
+                        
+                    result_img = result_img/voting_mask
+                    result_img = np.around(result_img).astype(np.uint8)
+                    results.append(result_img)
+    
+    for i, (input_path, label_path) in enumerate(zip(img_paths, label_paths)):
+        
+        targ_img = cv2.imread(label_path)
+        psnr_score_list.append(psnr_score(results[i].astype(float), targ_img.astype(float), 255))
+        
+    
+    return np.mean(psnr_score_list), psnr_score_list
 
 if __name__ == '__main__':
     set_seeds(seed=args.seed) 
