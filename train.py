@@ -8,46 +8,26 @@ import os, sys
 import pandas as pd
 import cv2
 import argparse
-# torch
 import segmentation_models_pytorch as smp
-
 import torch
 import torch.cuda.amp as amp
 from torch.utils.data.dataset import Dataset
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import *
-
 import torch.nn as nn
 import torch.nn.functional as F
-#import torch.optim as optim
-#from torch.nn.parallel.data_parallel import data_parallel
-#from torchvision import transforms
-#import math
-#from collections import defaultdict
-#import itertools as it
-
 from torch.optim.lr_scheduler import CosineAnnealingWarmRestarts, CosineAnnealingLR, ReduceLROnPlateau, MultiStepLR, OneCycleLR
 from warmup_scheduler import GradualWarmupScheduler
 from adamp import AdamP
 from torch.optim.optimizer import Optimizer
-
 import tqdm
 import random
-
 from sklearn.model_selection import KFold
-
 #
 from dataloader import LGDataSet, get_transforms
 from models.model import SRModels
 from utils import *
-# from albumentations import (
-#     HorizontalFlip, VerticalFlip, IAAPerspective, ShiftScaleRotate, CLAHE, RandomRotate90,
-#     Transpose, ShiftScaleRotate, Blur, OpticalDistortion, GridDistortion, HueSaturationValue,
-#     IAAAdditiveGaussianNoise, GaussNoise, MotionBlur, MedianBlur, IAAPiecewiseAffine, RandomCrop, RandomResizedCrop,
-#     IAASharpen, IAAEmboss, RandomBrightnessContrast, Flip, OneOf, Compose, Normalize, Cutout, CoarseDropout, ShiftScaleRotate, CenterCrop, Resize
-# )
-# from albumentations.pytorch import ToTensorV2
-# import albumentations as A
+
 # ------------------------
 #  Arguments
 # ------------------------
@@ -57,12 +37,10 @@ parser.add_argument('--debug', action='store_true', help='debugging mode')
 parser.add_argument('--amp', type=bool, default=True, help='mixed precision')
 parser.add_argument('--gpu', type=str, default= '0,1', help='gpu')
 parser.add_argument('--img_size', type=int, default= 512, help='image size/ [512, 768]')
-
 # training
 parser.add_argument('--scheduler', type=str, default= 'warmupv2', help='')
 parser.add_argument('--epochs', type=int, default= 50, help='')
 parser.add_argument('--start_lr', type=float, default= 3e-5, help='start learning rate')
-
 parser.add_argument('--warmup_epo', type=int, default= 1, help='')
 parser.add_argument('--cosine_epo', type=int, default= 49, help='')
 parser.add_argument('--warmup_factor', type=int, default= 10, help='')
@@ -70,12 +48,10 @@ parser.add_argument('--batch_size', type=int, default= 32, help='')
 parser.add_argument('--weight_decay', type=float, default= 1e-6, help='')
 parser.add_argument('--alpha', type=float, default= 0.1, help='loss ratio')
 parser.add_argument('--loss', type=str, default= 'mae+mse', help='')
-
 # model
 parser.add_argument('--activation', type=str, default= 'sigmoid', help='')
 parser.add_argument('--encoder', type=str, default= 'se_resnext50_32x4d', help='resnet34, ,,,')
 parser.add_argument('--decoder',  type=str, default= 'unet', help='unet, fpn...')
-
 # else
 parser.add_argument('--exp_name', type=str, default= 'experiment', help='experiments name')
 parser.add_argument('--num_workers', type=int, default= 8, help='')
