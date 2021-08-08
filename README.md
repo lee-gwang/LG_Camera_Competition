@@ -1,9 +1,8 @@
 # LG_Camera_Competition
 
 ## Summary 
-
-![](https://drive.google.com/uc?export=view&id=10UNZPnFq2Vn1Ew0k63XRgfE5I9VFbrVg)
-
+<!-- ![](https://drive.google.com/uc?export=view&id=10UNZPnFq2Vn1Ew0k63XRgfE5I9VFbrVg) -->
+![ex_screenshot](./overview/summary.png)
 ## Data Path 
 
 ```
