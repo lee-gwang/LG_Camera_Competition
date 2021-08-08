@@ -25,6 +25,8 @@ ${LG_Folder}
 |   └── train_input_img
 |   └── train_label_img
 |   └── test_input_img
+|   └── train.csv
+|   └── test.csv
 | 
 ├── img
 |   └── augmented_img_xx.png
