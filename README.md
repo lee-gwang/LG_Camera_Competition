@@ -35,8 +35,8 @@ ${LG_Folder}
 ```
 
 ## Environments Settings
-- ### CUDA version >= 11.1
-- ### Ubuntu 18.04
+- #### CUDA version >= 11.1
+- #### Ubuntu 18.04
 
 ```
 $ conda env create -n lg --file environment.yml
