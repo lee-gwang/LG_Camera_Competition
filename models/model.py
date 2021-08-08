@@ -4,6 +4,10 @@ import segmentation_models_pytorch as smp
 import torch
 
 class SRModels(nn.Module):
+    """reference : https://github.com/qubvel/segmentation_models.pytorch
+
+    Unet encoder, decoder setting이 가능합니다.
+    """
     def __init__(self):
         super().__init__()
         self.model = smp.Unet('se_resnext50_32x4d', in_channels=3, classes=3, activation='sigmoid',

@@ -21,6 +21,13 @@ args = parser.parse_args()
 os.environ["CUDA_VISIBLE_DEVICES"] = args.gpu
 device = torch.device(f"cuda" if torch.cuda.is_available() else "cpu")
 def predict_new(stride=640, batch_size=64, img_size=768):
+    """inference function
+
+    Args:
+        stride : stride size
+        batch_size : inference batch size
+        img_size : inference image size
+    """
     # test data load
     test = pd.read_csv('./data/test.csv')
     img_paths = f'./data/test_input_img/'+test['input_img']

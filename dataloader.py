@@ -1,3 +1,8 @@
+"""Simple Pytorch Dataloader.
+Input image csv file, transforms
+
+"""
+
 # - dataloader.py - #
 
 from albumentations import (
@@ -51,6 +56,10 @@ class LGDataSet(Dataset):
 #  Augmentation
 # ------------------------
 def get_transforms(*, data, img_size):
+    """make transforms
+    2 cases : train, valid/test
+
+    """
     if data == 'train':
         return A.Compose([
                     A.HorizontalFlip(p=0.3), 
