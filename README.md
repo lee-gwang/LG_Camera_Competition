@@ -33,7 +33,7 @@ ${LG_Folder}
 ```
 
 ## Environments Settings
-
+- ### CUDA version >= 11.1
 ```
 $ conda env create -n lg --file environment.yml
 $ conda activate lg
