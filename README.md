@@ -26,6 +26,10 @@ ${LG_Folder}
 |   └── train_label_img
 |   └── test_input_img
 | 
+├── img
+|   └── augmented_img_xx.png
+|   └── original_img_xx.png
+|   
 └── environment.yml
 ​```
 ```
@@ -71,6 +75,12 @@ $ python inference.py --gpu=0,1
 
 optional arguments:
     --gpu:                gpu numbers
+```
+
+## Make augmented images Script
+
+```bash
+$ python sample_augmentation.py
 ```
 
 ## Result
