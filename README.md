@@ -27,7 +27,7 @@ ${LG_Folder}
 |   └── train_label_img
 |   └── test_input_img
 | 
-├── requirements.txt
+├── environment.yml
 └── submission_final.csv 
 ​```
 ```
@@ -35,7 +35,9 @@ ${LG_Folder}
 ## Environments Settings
 
 ```
-$ pip install -r requirements.txt
+$ conda env create -n lg --file environment.yml
+$ conda activate lg
+$ pip install git+https://github.com/ildoonet/pytorch-gradual-warmup-lr.git
 ```
 
 ## Preprocess Script
