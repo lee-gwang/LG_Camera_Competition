@@ -8,6 +8,9 @@ import tqdm
 import cv2
 
 def load_data():
+    """Load train/test csv file 
+    
+    """
     train = pd.read_csv('./data/train.csv')
     test = pd.read_csv('./data/test.csv')
     return train, test
@@ -33,6 +36,12 @@ def cut_img(img_path_list, save_path, stride, img_size):
           
 
 def preprocess_train(img_size=512):
+    """Preprocessing train data.
+    10-Fold train/valid split
+
+    args:
+        img_size : stride image size
+    """
     train = pd.read_csv('./data/train.csv')
 
     kf = KFold(n_splits=10, random_state=42, shuffle=True)
@@ -71,7 +80,13 @@ def preprocess_train(img_size=512):
     df = pd.concat([temp_train, temp_test], 0).reset_index(drop=True)
     df['img_id'] = df['input_img'].apply(lambda x : x.split('/')[-1].split('_')[0])
     df.to_csv(f'./data/preprocess_train_{img_size}.csv', index=False)
+
 def preprocess_test(img_size=512):
+    """Preprocessing test data.
+
+    args:
+        img_size : stride image size
+    """
     test = pd.read_csv('./data/test.csv')
 
     test['input_img']  = './data/test_input_img/'+test['input_img'] 

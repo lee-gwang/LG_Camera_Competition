@@ -5,6 +5,9 @@ import sys
 import numpy as np
 import math
 
+"""GradualWarmupSchedulerV2.
+defalut scheduler
+"""
 class GradualWarmupSchedulerV2(GradualWarmupScheduler):
     def __init__(self, optimizer, multiplier, total_epoch, after_scheduler=None):
         super(GradualWarmupSchedulerV2, self).__init__(optimizer, multiplier, total_epoch, after_scheduler)
@@ -53,6 +56,10 @@ def print_args(args, logger=None):
             logger.write('{:<16} : {}\n'.format(k, v))
         else:
             print('{:<16} : {}'.format(k, v))          
+
+"""Eval metrics and related
+
+"""
 def rmse_score(true, pred):
     score = math.sqrt(np.mean((true-pred)**2))
     return score            

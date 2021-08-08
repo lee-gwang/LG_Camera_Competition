@@ -26,8 +26,7 @@ ${LG_Folder}
 |   └── train_label_img
 |   └── test_input_img
 | 
-├── environment.yml
-└── submission_final.csv 
+└── environment.yml
 ​```
 ```
 
@@ -84,9 +83,9 @@ optional arguments:
 | v2   | +Aug                                                         | 31.90  | 30.93               | 31.07               |
 | v3   | +Aug  + AdamP                                                | 32.04  | 31.06               | 31.27               |
 | v4   | +Aug  + AdamP + Loss                                         | 32.19  | 30.93               | 31.41               |
-| v5   | +Aug  + AdamP + Loss + Inference Resolution (512 -> 784)     | 32.29  | 31.44               | **31.69**           |
-| v6   | +Aug  + AdamP + Loss + Inference Resolution (512 -> 784) + Input Resolution (512 -> 784) | 31.98  | **31.88**           | 31.49               |
-| v7   | Ensemble  (512model - v5 + 784model – v6)                    | 32.49  | **31.80  (+-0.08)** | **31.80  (+-0.08)** |
+| v5   | +Aug  + AdamP + Loss + Inference Resolution (512 -> 768)     | 32.29  | 31.44               | **31.69**           |
+| v6   | +Aug  + AdamP + Loss + Inference Resolution (768 -> 1024)| 31.98  | **31.88**           | 31.49               |
+| v7   | Ensemble  (512model - v5 + 768model – v6)                    | 32.49  | **31.80  (+-0.08)** | **31.80  (+-0.08)** |
 
 ## LeaderBoard 
 
