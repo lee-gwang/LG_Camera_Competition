@@ -32,7 +32,7 @@ ${LG_Folder}
 ​```
 ```
 
-## Prerequisites Script
+## Environments Settings
 
 ```
 $ pip install -r requirements.txt
