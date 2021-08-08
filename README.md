@@ -76,7 +76,7 @@ optional arguments:
 
 ## Result
 
-![](https://drive.google.com/uc?export=view&id=1M3I6A3yB9vgtlluIu0JJriAOjz7IYrx9)
+![ex_screenshot](./img/img1.png)
 
 |      | **실험**                                                     | **CV** | **Public**          | **Private**         |
 | ---- | ------------------------------------------------------------ | ------ | ------------------- | ------------------- |
@@ -90,4 +90,4 @@ optional arguments:
 
 ## LeaderBoard 
 
-![](https://drive.google.com/uc?export=view&id=1Is4vnsVmo-8lfM2Jmrm_XmUDw0HLEZLj)
+![ex_screenshot](./img/img2.png)
