@@ -26,8 +26,7 @@ ${LG_Folder}
 |   └── train_label_img
 |   └── test_input_img
 | 
-├── environment.yml
-└── submission_final.csv 
+└── environment.yml
 ​```
 ```
 
