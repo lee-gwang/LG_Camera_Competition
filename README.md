@@ -2,7 +2,7 @@
 
 ## Summary 
 <!-- ![](https://drive.google.com/uc?export=view&id=10UNZPnFq2Vn1Ew0k63XRgfE5I9VFbrVg) -->
-![ex_screenshot](./overview/summary.png)
+![ex_screenshot](./img/summary.png)
 ## Data Path 
 
 ```
